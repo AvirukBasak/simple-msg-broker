@@ -1,8 +1,14 @@
+import config from "../core/config.js";
 import { TopicStores, ConsumerStores } from "../core/datastore.js";
 
 export default function consumeTopic(req, res) {
   const topic = req.params.topic;
   const consumer = req.headers["authorization"].split(":")[0];
+
+  if (config.topics[topic].consumers.includes(consumer) === false) {
+    res.status(400).json({ error: "Invalid topic" });
+    return;
+  }
 
   if (!topic) {
     res.status(400).json({ error: "Missing topic" });

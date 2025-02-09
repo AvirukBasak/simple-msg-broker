@@ -1,9 +1,15 @@
+import config from "../core/config.js";
 import { validateMessage } from "../core/msgvalidator.js";
 import { TopicStores } from "../core/datastore.js";
 
 export default function produceTopic(req, res) {
   const topic = req.params.topic;
   const producer = req.headers["authorization"].split(":")[0];
+
+  if (config.topics[topic].producers.includes(producer) === false) {
+    res.status(400).json({ error: "Invalid topic" });
+    return;
+  }
 
   if (!topic) {
     res.status(400).json({ error: "Missing topic" });
