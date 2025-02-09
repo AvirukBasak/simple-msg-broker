@@ -1,0 +1,34 @@
+{
+  "producers": {
+    "producer1": { "secret": "prod-secret-123" },
+    "producer2": { "secret": "prod-secret-456" }
+  },
+  "consumers": {
+    "consumer1": { "secret": "cons-secret-789", "store": "consumers/c1.json" },
+    "consumer2": { "secret": "cons-secret-101", "store": "consumers/c2.json" }
+  },
+  "broker": {
+    "port": 8080,
+    "host": "0.0.0.0"
+  },
+  "topics": {
+    "user-updates": {
+      "msgSchema": "examples/msgSchema/status-updates.js",
+      "store": "topics/status-updates.json",
+      "producers": ["producer1"],
+      "consumers": ["consumer1", "consumer2"]
+    },
+    "status-change": {
+      "msgSchema": "examples/msgSchema/status-change.js",
+      "store": "topics/status-change.json",
+      "producers": ["producer2"],
+      "consumers": ["consumer1"]
+    },
+    "timestamp-event": {
+      "msgSchema": "examples/msgSchema/timestamp-event.js",
+      "store": "topics/timestamp-event.json",
+      "producers": ["producer1", "producer2"],
+      "consumers": ["consumer2"]
+    }
+  }
+}
